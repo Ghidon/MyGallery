@@ -1,0 +1,41 @@
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.img-sizing {
+  max-height: 400px;
+}
+
+.posts-img-sizing {
+  max-height: 150px;
+  /* height: 150px; */
+  /* width: 20%; */
+}
+
+.posts-gallery {
+  min-height: 70%;
+  text-align: left;
+}
+
+.my-gallery {
+  /* height: 100vh; */
+}
+
+.posts-card {
+  margin: 5px;
+}
+
+.posts-trash {
+  text-align: right;
+  margin-right: 5px;
+  color: grey;
+}
+
+.post-modal {
+  text-align: center;
+}
+
+.pagination {
+  margin-top: 30px;
+}
