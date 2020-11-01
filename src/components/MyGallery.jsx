@@ -14,7 +14,6 @@ const MyGallery = ({
   sorting,
 }) => {
   const [posts, setPosts] = useState([]);
-  // const [whitelistedPosts, setwhitelistedPosts] = useState([]);
   const [filteredPosts, setfilteredPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,12 +27,10 @@ const MyGallery = ({
         localStorage.setItem("blackListed", []);
       }
       setPosts(
-        // res.data filtered by blacklist
         res.data.filter(
           (post) => !localStorage.getItem("blackListed").includes(post.url)
         )
       );
-      // setwhitelistedPosts(res.data);
       setfilteredPosts(
         res.data.filter(
           (post) => !localStorage.getItem("blackListed").includes(post.url)
@@ -62,13 +59,21 @@ const MyGallery = ({
     setfilteredPosts(newWhitelistedPosts);
   }
 
-  function setNewPostsSorting(sortValue) {
-    console.log(sortValue);
-    const sortedFilteredPosts = filteredPosts.sort(function (a, b) {
+  function setNewPostsSortingDate() {
+    let sortedFilteredPosts = filteredPosts.sort((a, b) => {
       return new Date(b.date) - new Date(a.date);
     });
     setfilteredPosts(sortedFilteredPosts);
-    // console.log(sortedFilteredPosts);
+
+    console.log(filteredPosts);
+  }
+
+  function setNewPostsSortingTitle() {
+    let sortedFilteredPosts = filteredPosts.sort((a, b) =>
+      a.title.localeCompare(b.title)
+    );
+    setfilteredPosts(sortedFilteredPosts);
+    console.log(filteredPosts);
   }
 
   //Get current posts
@@ -85,7 +90,8 @@ const MyGallery = ({
       <Header
         myGalleryPostPerPage={setNewPostPerPage}
         myGalleryPostsFilter={setNewSearchPosts}
-        myGalleryPostsSort={setNewPostsSorting}
+        myGalleryPostsSortDate={setNewPostsSortingDate}
+        myGalleryPostsSortTitle={setNewPostsSortingTitle}
         search={search}
         sorting={sorting}
         results_per_page={results_per_page}

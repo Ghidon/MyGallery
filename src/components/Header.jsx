@@ -13,13 +13,15 @@ export default class Header extends Component {
   };
 
   handleSearchValue = (event) => {
-    // this.setState({ searchValue: event.target.value });
     this.props.myGalleryPostsFilter(event.target.value);
   };
 
   handleSortBy = (event) => {
-    // this.setState({ searchValue: event.target.value });
-    this.props.myGalleryPostsSort(event.target.value);
+    if (event.target.value === "date") {
+      this.props.myGalleryPostsSortDate();
+    } else {
+      this.props.myGalleryPostsSortTitle();
+    }
   };
 
   render() {

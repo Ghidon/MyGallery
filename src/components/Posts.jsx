@@ -10,7 +10,7 @@ export const Posts = ({
   auto_rotate_time,
   myGalleryWhiteListingPosts,
 }) => {
-  const [imgIndex, setImgIndex] = useState("");
+  const [imgIndex, setImgIndex] = useState(0);
 
   if (loading) {
     return <h2>Loading...</h2>;
@@ -102,8 +102,8 @@ export const Posts = ({
                             alt="..."
                             className="img-sizing"
                           />
-                          <h3>{post.title}</h3>
-                          <h5>{post.date}</h5>
+                          <h5 className="posts-modal-title">{post.title}</h5>
+                          <span>{post.date}</span>
                         </span>
                       </a>
                     </div>
