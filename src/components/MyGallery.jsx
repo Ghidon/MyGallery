@@ -14,7 +14,8 @@ const MyGallery = ({
   sorting,
 }) => {
   const [posts, setPosts] = useState([]);
-  const [filteredPosts, setfilteredPosts] = useState(posts);
+  // const [whitelistedPosts, setwhitelistedPosts] = useState([]);
+  const [filteredPosts, setfilteredPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(results_per_page);
@@ -23,8 +24,21 @@ const MyGallery = ({
     const fetchPosts = async () => {
       setLoading(true);
       const res = await axios.get(feed);
-      setPosts(res.data);
-      setfilteredPosts(res.data);
+      if (!localStorage.getItem("blackListed")) {
+        localStorage.setItem("blackListed", []);
+      }
+      setPosts(
+        // res.data filtered by blacklist
+        res.data.filter(
+          (post) => !localStorage.getItem("blackListed").includes(post.url)
+        )
+      );
+      // setwhitelistedPosts(res.data);
+      setfilteredPosts(
+        res.data.filter(
+          (post) => !localStorage.getItem("blackListed").includes(post.url)
+        )
+      );
       setLoading(false);
     };
 
@@ -36,18 +50,25 @@ const MyGallery = ({
     setPostPerPage(intNewValue);
   }
 
-  function setNewPosts(searchValue) {
+  function setNewSearchPosts(searchValue) {
     let newPosts = posts.filter((post) => post.title.includes(searchValue));
     setfilteredPosts(newPosts);
   }
 
-  function setNewSorting(sortValue) {
+  function setNewWhitelistedPosts() {
+    let newWhitelistedPosts = filteredPosts.filter(
+      (post) => !localStorage.getItem("blackListed").includes(post.url)
+    );
+    setfilteredPosts(newWhitelistedPosts);
+  }
+
+  function setNewPostsSorting(sortValue) {
     console.log(sortValue);
     const sortedFilteredPosts = filteredPosts.sort(function (a, b) {
       return new Date(b.date) - new Date(a.date);
     });
     setfilteredPosts(sortedFilteredPosts);
-    console.log(sortedFilteredPosts);
+    // console.log(sortedFilteredPosts);
   }
 
   //Get current posts
@@ -63,8 +84,8 @@ const MyGallery = ({
       <h1 className="text-primary mb-3">My Gallery</h1>
       <Header
         myGalleryPostPerPage={setNewPostPerPage}
-        myGalleryPostsFilter={setNewPosts}
-        myGalleryPostsSort={setNewSorting}
+        myGalleryPostsFilter={setNewSearchPosts}
+        myGalleryPostsSort={setNewPostsSorting}
         search={search}
         sorting={sorting}
         results_per_page={results_per_page}
@@ -72,6 +93,7 @@ const MyGallery = ({
 
       <Posts
         posts={currentPosts}
+        myGalleryWhiteListingPosts={setNewWhitelistedPosts}
         loading={loading}
         auto_rotate_time={auto_rotate_time}
       />

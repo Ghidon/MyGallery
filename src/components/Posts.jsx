@@ -4,9 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./Posts.css";
 
-export const Posts = ({ posts, loading, auto_rotate_time }) => {
+export const Posts = ({
+  posts,
+  loading,
+  auto_rotate_time,
+  myGalleryWhiteListingPosts,
+}) => {
   const [imgIndex, setImgIndex] = useState("");
-  const [modalIndex, setmodalIndex] = useState(false);
 
   if (loading) {
     return <h2>Loading...</h2>;
@@ -14,12 +18,13 @@ export const Posts = ({ posts, loading, auto_rotate_time }) => {
 
   const getIndex = (index) => {
     setImgIndex(index);
-    setmodalIndex(true);
-    //set to false when modal closes
   };
 
   const removeImage = (url) => {
-    console.log(url);
+    let list = [localStorage.getItem("blackListed")];
+    list.push(url);
+    localStorage.setItem("blackListed", list);
+    myGalleryWhiteListingPosts();
   };
 
   // const destroyModal = () => {
@@ -56,7 +61,7 @@ export const Posts = ({ posts, loading, auto_rotate_time }) => {
           </div>
         </span>
       ))}
-      {modalIndex && (
+      {
         <div
           className="modal fade"
           id="exampleModal"
@@ -108,7 +113,7 @@ export const Posts = ({ posts, loading, auto_rotate_time }) => {
             </div>
           </div>
         </div>
-      )}
+      }
     </div>
   );
 };
