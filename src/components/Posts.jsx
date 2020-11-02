@@ -10,7 +10,7 @@ export const Posts = ({
   auto_rotate_time,
   myGalleryWhiteListingPosts,
 }) => {
-  const [imgIndex, setImgIndex] = useState(0);
+  const [imgIndex, setImgIndex] = useState("");
 
   if (loading) {
     return <h2>Loading...</h2>;

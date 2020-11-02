@@ -57,6 +57,7 @@ const MyGallery = ({
       (post) => !localStorage.getItem("blackListed").includes(post.url)
     );
     setfilteredPosts(newWhitelistedPosts);
+    setPosts(newWhitelistedPosts);
   }
 
   function setNewPostsSortingDate() {
