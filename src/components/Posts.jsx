@@ -20,6 +20,11 @@ export const Posts = ({
     setImgIndex(index);
   };
 
+  const handleErrorImg = (event) => {
+    console.log(event.target.src);
+    return (event.target.src = "https://via.placeholder.com/300");
+  };
+
   const removeImage = (url) => {
     let list = [localStorage.getItem("blackListed")];
     list.push(url);
@@ -51,6 +56,7 @@ export const Posts = ({
                 src={post.url}
                 alt="..."
                 className="posts-img-sizing img-thumbnail"
+                onError={handleErrorImg}
               />
             </a>
             <div className="posts-trash">
@@ -97,8 +103,8 @@ export const Posts = ({
                       >
                         <span key={post.title} className="">
                           <img
-                            // onError={replaceBrokenImage}
                             src={post.url}
+                            onError={handleErrorImg}
                             alt="..."
                             className="img-sizing"
                           />
