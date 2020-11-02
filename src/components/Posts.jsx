@@ -22,7 +22,8 @@ export const Posts = ({
 
   const handleErrorImg = (event) => {
     console.log(event.target.src);
-    return (event.target.src = "https://via.placeholder.com/300");
+    return (event.target.src =
+      "https://s3.us-east-2.amazonaws.com/media.littleconquest.com/uploads/2017/06/404-Placeholder.png");
   };
 
   const removeImage = (url) => {
