@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { unmountComponentAtNode } from "react-dom";
 import Carousel from "react-elastic-carousel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -21,7 +22,6 @@ export const Posts = ({
   };
 
   const handleErrorImg = (event) => {
-    console.log(event.target.src);
     return (event.target.src =
       "https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png");
   };
@@ -33,19 +33,17 @@ export const Posts = ({
     myGalleryWhiteListingPosts();
   };
 
-  // const destroyModal = () => {
-  //   let modal = document.getElementById("exampleModal");
-  //   modal.remove();
-  //   setmodalIndex(false);
-  //   console.log("stocazzo");
-  // };
+  const unmountModal = () => {
+    unmountComponentAtNode(document.getElementById("exampleModal"));
+    setImgIndex(null);
+  };
 
   return (
     <div className="posts-gallery d-flex flex-wrap center">
       {posts.map((post, index) => (
         <span className="d-flex">
           <div className="card posts-card box-shadow">
-            <div class="hover06 column">
+            <div className="hover06 column">
               <div>
                 <a
                   href="!#"
@@ -74,7 +72,7 @@ export const Posts = ({
           </div>
         </span>
       ))}
-      {
+      {(imgIndex || imgIndex === 0) && (
         <div
           className="modal fade"
           id="exampleModal"
@@ -91,44 +89,43 @@ export const Posts = ({
                   className="close"
                   data-dismiss="modal"
                   aria-label="Close"
-                  // onClick={destroyModal}
+                  onClick={unmountModal}
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
-                {imgIndex && (
-                  <Carousel
-                    initialActiveIndex={imgIndex}
-                    itemsToShow={1}
-                    enableAutoPlay
-                    autoPlaySpeed={auto_rotate_time}
-                  >
-                    {posts.map((post) => (
-                      <div className="post-modal">
-                        <a
-                          href="!#"
-                          data-toggle="modal"
-                          data-target="#exampleModal"
-                        >
-                          <span key={post.title} className="">
-                            <img
-                              src={post.url}
-                              onError={handleErrorImg}
-                              alt="..."
-                              className="img-sizing"
-                            />
-                            <h5 className="posts-modal-title">{post.title}</h5>
-                            <span>{post.date}</span>
-                          </span>
-                        </a>
-                      </div>
-                    ))}
-                  </Carousel>
-                )}
+
+                <Carousel
+                  initialActiveIndex={imgIndex}
+                  itemsToShow={1}
+                  enableAutoPlay
+                  autoPlaySpeed={auto_rotate_time}
+                >
+                  {posts.map((post) => (
+                    <div className="post-modal">
+                      <a
+                        href="!#"
+                        data-toggle="modal"
+                        data-target="#exampleModal"
+                      >
+                        <span key={post.title} className="">
+                          <img
+                            src={post.url}
+                            onError={handleErrorImg}
+                            alt="..."
+                            className="modal-img-sizing img-thumbnail"
+                          />
+                          <h5 className="posts-modal-title">{post.title}</h5>
+                          <span>{post.date}</span>
+                        </span>
+                      </a>
+                    </div>
+                  ))}
+                </Carousel>
               </div>
             </div>
           </div>
         </div>
-      }
+      )}
     </div>
   );
 };

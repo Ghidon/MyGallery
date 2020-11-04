@@ -16,6 +16,11 @@ h1 {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.modal-img-sizing {
+  max-width: 100%;
+  height: auto;
+}
+
 .posts-card {
   margin: 5px;
 }
@@ -98,8 +103,8 @@ h2 span {
 .column div {
   position: relative;
   float: left;
-  width: 300px;
-  height: 200px;
+  width: 180px;
+  height: 120px;
   margin: 0 0 0 25px;
   padding: 0;
 }
@@ -112,7 +117,7 @@ h2 span {
   left: 0;
   z-index: -1;
   display: block;
-  width: 300px;
+  width: 180px;
   margin: 0;
   padding: 0;
   color: #444;
@@ -124,8 +129,8 @@ h2 span {
   opacity: 0;
 }
 figure {
-  width: 300px;
-  height: 200px;
+  width: 180px;
+  height: 120px;
   margin: 0;
   padding: 0;
   background: #fff;
@@ -146,4 +151,23 @@ figure:hover + span {
 .hover06 figure:hover img {
   -webkit-transform: rotate(0) scale(1);
   transform: rotate(0) scale(1);
+}
+
+@media only screen and (max-width: 473px) {
+  body {
+    background-color: red;
+  }
+  .column div {
+    width: 300px;
+    height: 200px;
+  }
+
+  figure {
+    width: 300px;
+    height: 200px;
+  }
+
+  .column div span {
+    width: 300px;
+  }
 }
