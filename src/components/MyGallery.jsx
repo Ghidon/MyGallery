@@ -87,7 +87,7 @@ const MyGallery = ({
 
   return (
     <div className="my-gallery mt-5">
-      <h1 className="text-primary mb-3">My Gallery</h1>
+      <h1 className="mb-3">My Gallery</h1>
       <Header
         myGalleryPostPerPage={setNewPostPerPage}
         myGalleryPostsFilter={setNewSearchPosts}

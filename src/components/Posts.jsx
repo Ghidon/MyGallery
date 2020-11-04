@@ -23,7 +23,7 @@ export const Posts = ({
   const handleErrorImg = (event) => {
     console.log(event.target.src);
     return (event.target.src =
-      "https://s3.us-east-2.amazonaws.com/media.littleconquest.com/uploads/2017/06/404-Placeholder.png");
+      "https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png");
   };
 
   const removeImage = (url) => {
@@ -41,25 +41,31 @@ export const Posts = ({
   // };
 
   return (
-    <div className="posts-gallery col-12 d-flex flex-wrap">
+    <div className="posts-gallery d-flex flex-wrap center">
       {posts.map((post, index) => (
         <span className="d-flex">
-          <div className="card posts-card">
-            <a
-              href="!#"
-              onClick={() => getIndex(index)}
-              key={post.title}
-              data-toggle="modal"
-              data-target="#exampleModal"
-              className=""
-            >
-              <img
-                src={post.url}
-                alt="..."
-                className="posts-img-sizing img-thumbnail"
-                onError={handleErrorImg}
-              />
-            </a>
+          <div className="card posts-card box-shadow">
+            <div class="hover06 column">
+              <div>
+                <a
+                  href="!#"
+                  onClick={() => getIndex(index)}
+                  key={post.title}
+                  data-toggle="modal"
+                  data-target="#exampleModal"
+                  className=""
+                >
+                  <figure>
+                    <img
+                      src={post.url}
+                      alt="..."
+                      className="posts-img-sizing img-thumbnail"
+                      onError={handleErrorImg}
+                    />
+                  </figure>
+                </a>
+              </div>
+            </div>
             <div className="posts-trash">
               <a href="!#" onClick={() => removeImage(post.url)}>
                 <FontAwesomeIcon icon={faTrash} />
@@ -89,33 +95,35 @@ export const Posts = ({
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
-                <Carousel
-                  initialActiveIndex={imgIndex}
-                  itemsToShow={1}
-                  enableAutoPlay
-                  autoPlaySpeed={auto_rotate_time}
-                >
-                  {posts.map((post) => (
-                    <div className="post-modal">
-                      <a
-                        href="!#"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
-                      >
-                        <span key={post.title} className="">
-                          <img
-                            src={post.url}
-                            onError={handleErrorImg}
-                            alt="..."
-                            className="img-sizing"
-                          />
-                          <h5 className="posts-modal-title">{post.title}</h5>
-                          <span>{post.date}</span>
-                        </span>
-                      </a>
-                    </div>
-                  ))}
-                </Carousel>
+                {imgIndex && (
+                  <Carousel
+                    initialActiveIndex={imgIndex}
+                    itemsToShow={1}
+                    enableAutoPlay
+                    autoPlaySpeed={auto_rotate_time}
+                  >
+                    {posts.map((post) => (
+                      <div className="post-modal">
+                        <a
+                          href="!#"
+                          data-toggle="modal"
+                          data-target="#exampleModal"
+                        >
+                          <span key={post.title} className="">
+                            <img
+                              src={post.url}
+                              onError={handleErrorImg}
+                              alt="..."
+                              className="img-sizing"
+                            />
+                            <h5 className="posts-modal-title">{post.title}</h5>
+                            <span>{post.date}</span>
+                          </span>
+                        </a>
+                      </div>
+                    ))}
+                  </Carousel>
+                )}
               </div>
             </div>
           </div>

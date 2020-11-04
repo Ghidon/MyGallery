@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./Posts.css";
 
 export default class Header extends Component {
   constructor(props) {
@@ -28,27 +29,18 @@ export default class Header extends Component {
     return (
       <div className="d-flex justify-content-between">
         {this.props.search && (
-          <div className="input-group mb-3 col-9">
+          <div className="input-group mb-3 header-search-bar box-shadow">
             <input
               type="text"
               className="form-control"
               placeholder="Search your picture"
               aria-describedby="button-addon2"
               onChange={this.handleSearchValue}
-            />
-            <div className="input-group-append">
-              <button
-                className="btn btn-outline-secondary"
-                type="button"
-                id="button-addon2"
-              >
-                Search
-              </button>
-            </div>
+            />            
           </div>
         )}
         {this.props.sorting && (
-          <div className="input-group col-2">
+          <div className="input-group header-sortBy box-shadow">
             <select
               className="custom-select"
               id="inputGroupSelect04"
@@ -61,7 +53,7 @@ export default class Header extends Component {
             </select>
           </div>
         )}
-        <div className="input-group col-1">
+        <div className="input-group header-posts-show box-shadow">
           <select
             className="custom-select"
             id="inputGroupSelect04"
