@@ -154,9 +154,6 @@ figure:hover + span {
 }
 
 @media only screen and (max-width: 473px) {
-  body {
-    background-color: red;
-  }
   .column div {
     width: 300px;
     height: 200px;
