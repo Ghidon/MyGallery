@@ -36,7 +36,7 @@ export default class Header extends Component {
               placeholder="Search your picture"
               aria-describedby="button-addon2"
               onChange={this.handleSearchValue}
-            />            
+            />
           </div>
         )}
         {this.props.sorting && (
@@ -47,7 +47,9 @@ export default class Header extends Component {
               aria-label="Example select with button addon"
               onChange={this.handleSortBy}
             >
-              <option selected>Sort by...</option>
+              <option disabled selected>
+                Sort by...
+              </option>
               <option value="date">Date</option>
               <option value="title">Title</option>
             </select>

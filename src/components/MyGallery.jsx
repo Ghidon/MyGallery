@@ -13,11 +13,12 @@ const MyGallery = ({
   search,
   sorting,
 }) => {
-  const [posts, setPosts] = useState([]);
-  const [filteredPosts, setfilteredPosts] = useState([]);
+  const [originalPosts, setOriginalPosts] = useState([]);
+  const [searchFilteredPosts, setSearchFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage, setPostPerPage] = useState(results_per_page);
+  const [postsPerPage, setPostsPerPage] = useState(results_per_page);
+  const [sortMethod, setSortMethod] = useState("");
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -26,16 +27,11 @@ const MyGallery = ({
       if (!localStorage.getItem("blackListed")) {
         localStorage.setItem("blackListed", []);
       }
-      setPosts(
-        res.data.filter(
-          (post) => !localStorage.getItem("blackListed").includes(post.url)
-        )
+      const whiteListed = res.data.filter(
+        (post) => !localStorage.getItem("blackListed").includes(post.url)
       );
-      setfilteredPosts(
-        res.data.filter(
-          (post) => !localStorage.getItem("blackListed").includes(post.url)
-        )
-      );
+      setOriginalPosts(whiteListed);
+      setSearchFilteredPosts(whiteListed);
       setLoading(false);
     };
 
@@ -44,43 +40,43 @@ const MyGallery = ({
 
   function setNewPostPerPage(newValue) {
     const intNewValue = parseInt(newValue, 10);
-    setPostPerPage(intNewValue);
+    setPostsPerPage(intNewValue);
   }
 
   function setNewSearchPosts(searchValue) {
-    let newPosts = posts.filter((post) => post.title.includes(searchValue));
-    setfilteredPosts(newPosts);
+    let newPosts = originalPosts.filter((post) =>
+      post.title.includes(searchValue)
+    );
+    setSearchFilteredPosts(newPosts);
   }
 
   function setNewWhitelistedPosts() {
-    let newWhitelistedPosts = filteredPosts.filter(
+    let newWhitelistedPosts = searchFilteredPosts.filter(
       (post) => !localStorage.getItem("blackListed").includes(post.url)
     );
-    setfilteredPosts(newWhitelistedPosts);
-    setPosts(newWhitelistedPosts);
+    setSearchFilteredPosts(newWhitelistedPosts);
+    setOriginalPosts(newWhitelistedPosts);
   }
 
   function setNewPostsSortingDate() {
-    let sortedFilteredPosts = filteredPosts.sort((a, b) => {
+    setSortMethod("date");
+    searchFilteredPosts.sort((a, b) => {
       return new Date(b.date) - new Date(a.date);
     });
-    setfilteredPosts(sortedFilteredPosts);
-
-    console.log(filteredPosts);
   }
 
   function setNewPostsSortingTitle() {
-    let sortedFilteredPosts = filteredPosts.sort((a, b) =>
-      a.title.localeCompare(b.title)
-    );
-    setfilteredPosts(sortedFilteredPosts);
-    console.log(filteredPosts);
+    setSortMethod("title");
+    searchFilteredPosts.sort((a, b) => a.title.localeCompare(b.title));
   }
 
   //Get current posts
-  const indexOfLastPost = currentPage * postPerPage;
-  const indexOfFirstPost = indexOfLastPost - postPerPage;
-  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = searchFilteredPosts.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  );
 
   // Change Page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -106,8 +102,8 @@ const MyGallery = ({
       />
       {pagination && (
         <Pagination
-          postPerPage={postPerPage}
-          totalPosts={filteredPosts.length}
+          postPerPage={postsPerPage}
+          totalPosts={searchFilteredPosts.length}
           paginate={paginate}
         />
       )}
